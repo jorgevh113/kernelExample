@@ -4,21 +4,18 @@
 
 ```
 cd examples/act
-
 ```
 
 ## Create Kernel module
 
 ```
 make -C /usr/src/$(uname -r) M=`pwd` modules
-
 ```
 
 ## Install kernel module
 
 ```
 sudo insmod charDev_KernelModule
-
 ```
 
 ## Use code for testing module
@@ -26,12 +23,10 @@ sudo insmod charDev_KernelModule
 ```
 gcc gpioTest.c -o run
 ./run
-
 ```
 
 ## For uninstalling module
 
 ```
 sudo rmmode charDev_KernelModule
-
 ```
