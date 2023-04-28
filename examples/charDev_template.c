@@ -32,7 +32,7 @@ static int charDev_open(struct inode *inode, struct file *f) {
 	}
 
 	//Inicializar valores del sensorArray ...
-
+	sensorArray = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	open_count++;
 	return 0;
 }
@@ -48,8 +48,10 @@ static ssize_t charDev_read(struct file *f, char __user *buff, size_t count, lof
 	}
 
 	//Regresar valor del sensor seleccionado (sensorIndex) ...
-
-	return count;
+	
+	charDev_buff[0] = sensorArray[sensorIndex];
+	copy_to_user(buff, charDev_buff, 1);
+	return 1;
 }
 
 static ssize_t charDev_write(struct file *f, const char __user *buff, size_t count, loff_t *pos) {
@@ -58,13 +60,18 @@ static ssize_t charDev_write(struct file *f, const char __user *buff, size_t cou
 	}
 
 	//Guardar el índice que se utilizará para la lectura de datos del sensorArray
-
+	copy_from_user(charDev_buff, buff, 1);
+	sensorIndex = charDev_buff[0];
 	return count;
 }
 
 irqreturn_t irqHandler(int irq, void *dev_id) {
 	//Adquisición de datos en base al evento de interrupción ...
-	// ... esta rutina se asume funcionalmente completa
+	sensorArray[0] = gpio_get_value(IRQ_01);
+	sensorArray[1] = gpio_get_value(IRQ_02);
+	sensorArray[2] = gpio_get_value(IRQ_03);
+		...
+	sensorArray[15] = gpio_get_value(IRQ_16);
 	return IRQ_HANDLED;
 }
 
