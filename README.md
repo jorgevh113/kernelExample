@@ -28,5 +28,5 @@ gcc gpioTest.c -o run
 ## For uninstalling module
 
 ```
-sudo rmmode charDev_KernelModule
+sudo rmmod charDev_KernelModule
 ```
